@@ -1,0 +1,18 @@
+{
+  "tasks": [
+    {
+      "id": "4d05dbea-17ec-42b7-9cdf-e9a72b34d1e3",
+      "description": "Esta es una tarea editada desde el navegador",
+      "createdAt": "2025-09-16T23:04:38.854Z",
+      "dueDate": "",
+      "status": "pendiente"
+    },
+    {
+      "id": "2f516892-619f-41bf-8eec-892644073059",
+      "description": "Tarea 1",
+      "createdAt": "2025-09-16T23:04:45.506Z",
+      "dueDate": "",
+      "status": "progreso"
+    }
+  ]
+}

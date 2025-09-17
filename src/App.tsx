@@ -1,17 +1,37 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import TaskStats from "@components/task/TaskStats";
 import MainLayout from "./layouts/MainLayout";
 import TaskForm from "@components/task/TaskForm";
 import { Plus } from "lucide-react";
 import TaskFilter from "@components/task/TaskFilter";
 import TaskList from "@components/task/TaskList";
+import useStore from "./store/taskStore";
+import type { TaskFormData } from "./types/task/task";
 
 function App() {
   const [showForm, setShowForm] = useState(false);
+  const tasks = useStore.use.tasks();
+  const addTask = useStore.use.addTask();
+  const fetchTasks = useStore.use.fetchTasks();
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleAddTask = () => {
-    console.log("Adding new task...");
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
+
+  const handleAddTask = (task: TaskFormData) => {
+    addTask(task);
+    setShowForm(false);
   };
+
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((task) => {
+      const matchesSearch = task.description
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      return matchesSearch;
+    });
+  }, [tasks, searchTerm]);
 
   return (
     <MainLayout>
@@ -30,8 +50,8 @@ function App() {
           onCancel={() => setShowForm(false)}
         />
       )}
-      <TaskFilter />
-      <TaskList />
+      <TaskFilter searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+      <TaskList tasks={filteredTasks} />
     </MainLayout>
   );
 }
