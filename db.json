@@ -1,24 +1,24 @@
 {
   "tasks": [
     {
-      "id": "dd46ddca-2be3-4ba9-b7ac-bfd358e4bd3c",
-      "description": "Comprar cosas que no necesito",
-      "createdAt": "2025-09-18T07:57:06.319Z",
-      "dueDate": "2025-09-21T06:00:00.000Z",
+      "id": "41793e83-b6dc-434e-bd46-0d52de95c018",
+      "description": "Comprar la despensa",
+      "createdAt": "2025-09-18T08:49:27.617Z",
+      "dueDate": "2025-09-20T06:00:00.000Z",
+      "status": "pendiente"
+    },
+    {
+      "id": "7d120ada-71c6-4a69-af7f-24959ab93343",
+      "description": "Ir al GYM",
+      "createdAt": "2025-09-18T08:49:41.959Z",
+      "dueDate": "2025-09-28T06:00:00.000Z",
       "status": "progreso"
     },
     {
-      "id": "a0552ad1-f67f-4014-8cb9-43629a63287b",
-      "description": "Asustar a Gaty",
-      "createdAt": "2025-09-18T07:57:37.178Z",
-      "dueDate": "2025-09-19T06:00:00.000Z",
-      "status": "completado"
-    },
-    {
-      "id": "e6b16d45-9fac-4de4-acae-7e79f8b6c45b",
-      "description": "Hola",
-      "createdAt": "2025-09-18T08:38:41.346Z",
-      "dueDate": "2025-09-19T06:00:00.000Z",
+      "id": "2fa9ed9c-2fcd-41f5-aa42-32c575c1f7ac",
+      "description": "Terminar el proyecto 🥸",
+      "createdAt": "2025-09-18T08:50:02.955Z",
+      "dueDate": "2025-09-18T06:00:00.000Z",
       "status": "completado"
     }
   ]
