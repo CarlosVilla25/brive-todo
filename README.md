@@ -5,7 +5,7 @@ It also allows you to filter tasks by text and status.
 
 ## Tech Stack
 
-**Client:** React, Zustand, TailwindCSS, DaisyUI, Zod, React-hook-form, json-server, dayjs, Lucide-react
+**Client:** React, Zustand, TailwindCSS, DaisyUI, Zod, React-hook-form, json-server, dayjs, Lucide-react, Axios.
 
 ## Run Locally
 
