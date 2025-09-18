@@ -1,19 +1,24 @@
 import { useEffect, useMemo, useState } from "react";
-import TaskStats from "@components/task/TaskStats";
-import MainLayout from "./layouts/MainLayout";
-import TaskForm from "@components/task/TaskForm";
 import { Plus } from "lucide-react";
+import TaskStats from "@components/task/TaskStats";
+import MainLayout from "@layouts/MainLayout";
+import TaskForm from "@components/task/TaskForm";
 import TaskFilter from "@components/task/TaskFilter";
 import TaskList from "@components/task/TaskList";
-import useStore from "./store/taskStore";
-import type { TaskFormData } from "./types/task/task";
+import useStore from "@store/taskStore";
+import { useConfirm } from "@hooks/useConfirm";
+import type { TaskFormData, TaskStatus } from "@localTypes/task/task";
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const tasks = useStore.use.tasks();
+  const [statusFilter, setStatusFilter] = useState<TaskStatus | "all">("all");
+
   const addTask = useStore.use.addTask();
   const fetchTasks = useStore.use.fetchTasks();
-  const [searchTerm, setSearchTerm] = useState("");
+  const tasks = useStore.use.tasks();
+
+  const { openConfirm, ConfirmComponent } = useConfirm();
 
   useEffect(() => {
     fetchTasks();
@@ -26,32 +31,29 @@ function App() {
 
   const filteredTasks = useMemo(() => {
     return tasks.filter((task) => {
-      const matchesSearch = task.description
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      return matchesSearch;
+      const matchesSearch = task.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesStatus = statusFilter === "all" || task.status === statusFilter;
+      return matchesSearch && matchesStatus;
     });
-  }, [tasks, searchTerm]);
+  }, [tasks, searchTerm, statusFilter]);
 
   return (
     <MainLayout>
-      <TaskStats />
+      <TaskStats tasks={tasks} />
       <div className="flex justify-center mb-6">
-        <button
-          className="btn btn-primary"
-          onClick={() => setShowForm(!showForm)}
-        >
+        <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}>
           <Plus className="h-6 w-6" /> {showForm ? "Cancelar" : "Nueva Tarea"}
         </button>
       </div>
-      {showForm && (
-        <TaskForm
-          onSubmit={handleAddTask}
-          onCancel={() => setShowForm(false)}
-        />
-      )}
-      <TaskFilter searchTerm={searchTerm} onSearchChange={setSearchTerm} />
-      <TaskList tasks={filteredTasks} />
+      {showForm && <TaskForm onSubmit={handleAddTask} onCancel={() => setShowForm(false)} />}
+      <TaskFilter
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        onStatusChange={(status) => setStatusFilter(status as TaskStatus | "all")}
+        statusFilter={statusFilter}
+      />
+      <TaskList tasks={filteredTasks} openConfirm={openConfirm} />
+      <ConfirmComponent />
     </MainLayout>
   );
 }

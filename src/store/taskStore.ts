@@ -1,40 +1,20 @@
 import { create } from "zustand";
-import createSelectors from "./taskWithSelectors";
-import type {
-  Task,
-  TaskFilters,
-  TaskStatus,
-  TaskFormData,
-} from "../types/task/task";
-import { addTask, deleteTask, getTasks, updateTask } from "../api/todos";
-
-// export interface TaskFormData {
-//   description: string;
-//   createdAt: Date;
-//   dueDate: Date;
-//   status: TaskStatus;
-// }
+import type { Task, TaskFormData } from "@localTypes/task/task";
+import { addTask, deleteTask, getTasks, updateTask } from "@api/todos";
+import dayjs from "@utils/dateConfig";
+import createSelectors from "@store/taskWithSelectors";
 
 interface TaskStore {
   tasks: Task[];
   loading: boolean;
-  // filters: TaskFilters;
 
   fetchTasks: () => void;
   addTask: (taskData: TaskFormData) => void;
   updateTask: (id: string, updates: Partial<Task>) => void;
-  // updateTaskStatus: (id: string, status: TaskStatus) => void;
   deleteTask: (id: string) => void;
-
-  // setFilters: (filters: TaskFilters) => void;
-  // getFilteredTasks: () => Task[];
-  // clearFilters: () => void;
-
-  // getTaskById: (id: string) => Task | undefined;
-  // getTasksByStatus: (status: TaskStatus) => Task[];
 }
 
-const useTaskStore = create<TaskStore>((set, get) => ({
+const useTaskStore = create<TaskStore>((set) => ({
   tasks: [],
   loading: false,
   filter: {},
@@ -56,8 +36,8 @@ const useTaskStore = create<TaskStore>((set, get) => ({
       const newTask: Task = {
         id: crypto.randomUUID(),
         description: taskData.description.trim(),
-        createdAt: new Date(),
-        dueDate: taskData.dueDate,
+        createdAt: dayjs().toISOString(),
+        dueDate: dayjs(taskData.dueDate).toISOString(),
         status: taskData.status,
       };
 
@@ -73,16 +53,21 @@ const useTaskStore = create<TaskStore>((set, get) => ({
   updateTask: async (id: string, updates: Partial<Task>) => {
     set({ loading: true });
     try {
-      const updated = await updateTask(id, updates);
+      const normalizedUpdates = { ...updates };
+
+      if (updates.dueDate) {
+        normalizedUpdates.dueDate = dayjs(updates.dueDate).toISOString();
+      }
+      const updatedTask = await updateTask(id, normalizedUpdates);
       set((state) => ({
-        tasks: state.tasks.map((task) => (task.id === id ? updated : task)),
+        tasks: state.tasks.map((task) => (task.id === id ? updatedTask : task)),
         loading: false,
       }));
     } catch (error) {
       set({ loading: false });
+      throw error;
     }
   },
-  // updateTaskStatus: (id: string, status: TaskStatus) => {},
   deleteTask: async (id: string) => {
     set({ loading: true });
     try {
@@ -95,10 +80,6 @@ const useTaskStore = create<TaskStore>((set, get) => ({
       set({ loading: false });
     }
   },
-  // getFilteredTasks: () => {},
-  // clearFilters: () => {},
-  // getTaskById: (id: string) => {},
-  // getTasksByStatus: (status: TaskStatus) => {},
 }));
 
 export default createSelectors(useTaskStore);

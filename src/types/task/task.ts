@@ -3,7 +3,7 @@ export type TaskStatus = "pendiente" | "progreso" | "completado";
 export interface Task {
   id: string;
   description: string;
-  createdAt: Date;
+  createdAt: string;
   dueDate: string;
   status: TaskStatus;
 }

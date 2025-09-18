@@ -1,18 +1,25 @@
 {
   "tasks": [
     {
-      "id": "4d05dbea-17ec-42b7-9cdf-e9a72b34d1e3",
-      "description": "Esta es una tarea editada desde el navegador",
-      "createdAt": "2025-09-16T23:04:38.854Z",
-      "dueDate": "",
-      "status": "pendiente"
+      "id": "dd46ddca-2be3-4ba9-b7ac-bfd358e4bd3c",
+      "description": "Comprar cosas que no necesito",
+      "createdAt": "2025-09-18T07:57:06.319Z",
+      "dueDate": "2025-09-21T06:00:00.000Z",
+      "status": "progreso"
     },
     {
-      "id": "2f516892-619f-41bf-8eec-892644073059",
-      "description": "Tarea 1",
-      "createdAt": "2025-09-16T23:04:45.506Z",
-      "dueDate": "",
-      "status": "progreso"
+      "id": "a0552ad1-f67f-4014-8cb9-43629a63287b",
+      "description": "Asustar a Gaty",
+      "createdAt": "2025-09-18T07:57:37.178Z",
+      "dueDate": "2025-09-19T06:00:00.000Z",
+      "status": "completado"
+    },
+    {
+      "id": "e6b16d45-9fac-4de4-acae-7e79f8b6c45b",
+      "description": "Hola",
+      "createdAt": "2025-09-18T08:38:41.346Z",
+      "dueDate": "2025-09-19T06:00:00.000Z",
+      "status": "completado"
     }
   ]
 }
